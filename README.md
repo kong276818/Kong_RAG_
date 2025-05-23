@@ -24,18 +24,41 @@
 - 🗂 문서 유형 구분(chat / law / meeting 등)
 - 💾 **FAISS** 기반 벡터 DB 인덱싱
 
+## 🔁 파이프라인 구성 (Pipeline Flow)
+
+
+```bash
+1. 사용자 질의 입력 (User Query)
+     ⮕ 자연어 형태의 질문 입력
+
+2. 문서 로드 및 전처리 (Load & Preprocess)
+     ⮕ KoBART로 요약(summary), TF-IDF로 핵심 키워드 추출
+
+3. 의미 임베딩 및 유사 문서 검색 (Semantic Embedding & Retrieval)
+     ⮕ SentenceTransformer로 질의/문서 임베딩 생성  
+     ⮕ FAISS로 Top-K 유사 문서 검색
+
+4. LLM 응답 생성 (LLM Response Generation)
+     ⮕ KoAlpaca 또는 GPT 모델로 전략 응답 생성
+
+5. 결과 출력 및 저장 (Output & Logging)
+     ⮕ 요약·응답 저장, 질의 타임스탬프 기록, 벡터 인덱스 주기적 업데이트
+```
+![image](https://github.com/user-attachments/assets/67e6fa9d-479d-4bad-9a38-006dc80df745)
+
 ---
 
 ## 📁 디렉토리 구조 (Structure)
 
-
-Kong_RAG_/
-├── data/ # 원천 문서 (JSON 등)
-├── summary/ # 생성된 요약 및 키워드
-├── index/ # FAISS 인덱스 저장소
-├── model/ # 임베딩 및 LLM 구성
-├── app.py # 메인 실행 코드
-└── README.md # 프로젝트 소개 문서
+```bash
+📁 Kong_RAG_/
+├── data/         # 원천 문서 저장소 (chat, law, meeting 등)
+├── summary/      # 생성된 요약 및 추출된 키워드 저장
+├── index/        # FAISS 벡터 인덱스 저장소
+├── model/        # SentenceTransformer 및 LLM 설정
+├── app.py        # 메인 실행 코드 (질의 처리 파이프라인)
+└── README.md     # 프로젝트 소개 및 문서화
+```
 
 
 ---
@@ -46,6 +69,7 @@ Kong_RAG_/
 python app.py --query "2024년 공정위 경고 관련 사내 대응 사례는?"
 
 ```
+![image](https://github.com/user-attachments/assets/6854753d-e1fe-4be4-a5d9-2fcaa1dba35a)
 
 📌 저자
 공준영 (Kong276818)
